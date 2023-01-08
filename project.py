@@ -1,3 +1,14 @@
+import argparse
+import geonamescache
+
+
+# https://pypi.org/project/geonamescache/
+gc = geonamescache.GeonamesCache()
+buenos_aires = gc.get_cities_by_name("Buenos Aires")
+print(buenos_aires[0]['3435910']['latitude'])
+print(buenos_aires[0]['3435910']['longitude'])
+
+
 def main():
     ...
 
@@ -7,6 +18,8 @@ def main():
 def function_1():
     ...
 
+
+# Read csv?
 # List of countries first maybe?
 # List of cities first maybe?
 
