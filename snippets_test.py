@@ -12,13 +12,17 @@ def get_country_name_from_code(code):
 
 
 user_input = input("What city would you like to know about the weather?: ")
-similar_results = gc.search_cities(user_input, case_sensitive=False, attribute="name")
+similar_results = gc.search_cities(user_input,
+                                   case_sensitive=False,
+                                   attribute="name")
 city_name = similar_results[0]["name"]
 city_code = similar_results[0]["geonameid"]
 country_code = similar_results[0]["countrycode"]
 country = get_country_name_from_code(country_code)
 
-sorted_results = sorted(similar_results, key=lambda d: d["population"], reverse=True)
+sorted_results = sorted(similar_results,
+                        key=lambda d: d["population"],
+                        reverse=True)
 
 print(similar_results)
 
