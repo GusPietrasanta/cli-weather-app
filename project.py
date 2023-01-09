@@ -36,9 +36,16 @@ def main():
 # Validate user input
 def get_user_input():
     while True:
-        user_input = input("What city would you like to know about the weather?: ")
-        similar_results = gc.search_cities(user_input, case_sensitive=False, attribute="name")
-        similar_results = sorted(similar_results, key=lambda d: d["population"], reverse=True)
+        user_input = input(
+            """What city would you like\
+ to know about the weather?: """
+        )
+        similar_results = gc.search_cities(
+            user_input, case_sensitive=False, attribute="name"
+        )
+        similar_results = sorted(
+            similar_results, key=lambda d: d["population"], reverse=True
+        )
         if len(similar_results) > 1:
             # If more than one city was found, show options:
             print("\nWell, we have a couple of coincidences here.")
@@ -55,7 +62,12 @@ def get_user_input():
 
             while True:
                 try:
-                    user_selection = int(input(f"\nWhich one is the one you are after? (0 to {len(similar_results)}): "))
+                    user_selection = int(
+                        input(
+                            f"\nWhich one is the one you \
+are after? (0 to {len(similar_results)}): "
+                        )
+                    )
                 except ValueError:
                     print("Not a valid option! Try again.")
                     continue
@@ -77,10 +89,19 @@ def get_user_input():
             country = get_country_name_from_code(country_code)
             print()
             while True:
-                user_confirmation = input(f"Are we talking about {city_name}, {country} {flag.flag(country_code)}? (Y/N): ")
-                if user_confirmation.lower() == "y" or user_confirmation.lower() == "yes":
+                user_confirmation = input(
+                    f"Are we talking about {city_name},\
+ {country} {flag.flag(country_code)}? (Y/N): "
+                )
+                if (
+                    user_confirmation.lower() == "y"
+                    or user_confirmation.lower() == "yes"
+                ):
                     return city_data
-                elif user_confirmation.lower() == "n" or user_confirmation.lower() == "no":
+                elif (
+                    user_confirmation.lower() == "n"
+                    or user_confirmation.lower() == "no"
+                ):
                     print("\nOk, let's try again then.")
                     break
                 else:
