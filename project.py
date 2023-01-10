@@ -42,7 +42,6 @@ def main():
     print("Latitude:", latitude)
     print("Longitude:", longitude)
     print(Style.RESET_ALL, end="")
-    # print("Units: ", units)
 
     # Here we go:
     api_url = generate_api_url(latitude, longitude, API_KEY, units)
