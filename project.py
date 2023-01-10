@@ -231,8 +231,7 @@ are after? (1 to {len(similar_results)}): "
                 print(Fore.GREEN)
                 user_confirmation = input(
                     f"Are we talking about {city_name},\
- {country} {flag.flag(country_code)}? (Y/N): "
-                    + Style.RESET_ALL
+ {country} {flag.flag(country_code)}? (Y/N): " + Style.RESET_ALL
                 )
                 if (
                     user_confirmation.lower() == "y"
