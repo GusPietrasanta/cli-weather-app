@@ -1,6 +1,8 @@
-import geonamescache
 import emoji
 import flag
+import geonamescache
+import random
+from pyfiglet import Figlet
 from geonamescache.mappers import country
 
 
@@ -40,6 +42,11 @@ def get_user_input():
             """What city would you like\
  to know about the weather?: """
         )
+        if len(user_input) < 3:
+            print(emoji.emojize("""Sorry, that would return a huge list\
+ :grinning_face_with_sweat:"""))
+            print("Please be more specific.")
+            continue
         similar_results = gc.search_cities(
             user_input, case_sensitive=False, attribute="name"
         )
@@ -110,7 +117,52 @@ are after? (0 to {len(similar_results)}): "
 
 
 def generate_ascii_art():
-    ...
+    figlet = Figlet()
+
+    font = "slant"
+
+    figlet.setFont(font=font)
+
+    text = "Weather CLI"
+
+    emojis_list = [
+        ":cloud:",
+        ":cloud_with_lightning:",
+        ":cloud_with_lightning_and_rain:",
+        ":cloud_with_rain:",
+        ":cloud_with_snow:",
+        ":closed_umbrella:",
+        ":sun_behind_cloud:",
+        ":sun:",
+        ":sun_behind_large_cloud:",
+        ":sunrise:",
+        ":sun_with_face:",
+        ":sunrise_over_mountains:",
+        ":sun_behind_small_cloud:",
+        ":sun_behind_rain_cloud:",
+        ":umbrella_with_rain_drops:",
+        ":umbrella_on_ground:",
+        ":umbrella:",
+        ":snowflake:",
+        ":snowman:",
+        ":beach_with_umbrella:",
+        ":desert_island:",
+        ":water_wave:",
+    ]
+
+    emojis_to_print = 20
+    string_to_return = ""
+
+    string_to_return += "\n\n"
+    for _ in range(emojis_to_print):
+        string_to_return += emoji.emojize(random.choice(emojis_list)) + "  "
+    string_to_return += "\n"
+    string_to_return += figlet.renderText(text)
+    for _ in range(emojis_to_print - 2):
+        string_to_return += emoji.emojize(random.choice(emojis_list)) + "  "
+    string_to_return += "\n\n"
+
+    return string_to_return
 
 
 def get_country_name_from_code(code):
