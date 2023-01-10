@@ -54,7 +54,10 @@ def main():
         description = current_response["weather"][0]["description"]
         sunrise = current_response["sys"]["sunrise"]
         sunset = current_response["sys"]["sunset"]
-        weather_emoji = get_emoji_from_id(weather_id, timestamp, sunrise, sunset)
+        weather_emoji = get_emoji_from_id(weather_id,
+                                          timestamp,
+                                          sunrise,
+                                          sunset)
         temp = current_response["main"]["temp"]
         feels_like = current_response["main"]["feels_like"]
         temp_min = current_response["main"]["temp_min"]
