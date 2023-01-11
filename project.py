@@ -392,13 +392,13 @@ Feels Like: {feels_like}{temp_unit}"""
     )
     print(
         emojize(
-            f""":red_circle:  Max currently  \
+            f""":red_circle:  Max currently \
 observed temperature in {city_name}: {temp_max}{temp_unit}"""
         )
     )
     print(
         emojize(
-            f""":blue_circle:  Min currenty observed  \
+            f""":blue_circle:  Min currenty observed \
 temperature in {city_name}: {temp_min}{temp_unit}"""
         )
     )
