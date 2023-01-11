@@ -315,9 +315,9 @@ def ask_units():
 prefer the information? (M)etric or (I)mperial? """
             + Style.RESET_ALL
         ).lower()
-        if user_preference == "m" or user_preference == "metric":
+        if user_preference in ["m", "metric"]:
             return "metric"
-        elif user_preference == "i" or user_preference == "imperial":
+        elif user_preference in ["i", "imperial"]:
             return "imperial"
         else:
             print(Fore.RED)
