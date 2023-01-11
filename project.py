@@ -72,8 +72,6 @@ def main():
             print(Fore.RED)
             sys.exit("Oops!Something went wrong." + Style.RESET_ALL)
 
-        print(forecast_api_url)
-
         forecast_response = forecast_response.json()
 
         if forecast_response["cod"] != "200":
@@ -467,7 +465,6 @@ def print_forecast_response(forecast_response, units):
     sunset = datetime.utcfromtimestamp(sunset)
     # Convert sunrise and sunset to local time
     date = ""
-    print()
 
     for forecast in forecast_response["list"]:
         timestamp = forecast["dt"]
@@ -500,9 +497,9 @@ def print_forecast_response(forecast_response, units):
         wind_direction = deg_to_compass(forecast["wind"]["deg"])
         clouds = forecast["clouds"]["all"]
 
-        print(Fore.YELLOW, end="")
         if new_date != date:
-            print(emojize(f":calendar:  {new_date}"))
+            print(Fore.YELLOW, end="")
+            print(emojize(f"\n:calendar:  {new_date}"))
             date = new_date
         print(Fore.MAGENTA, end="")
         print(emojize(f":hourglass_done:  {forecast_time} \
