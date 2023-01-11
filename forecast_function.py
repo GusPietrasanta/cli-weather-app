@@ -12,7 +12,7 @@ from geonamescache.mappers import country
 from colorama import Fore, Back, Style
 from forecast_response import forecast_response
 from datetime import datetime
-import emoji
+from emoji import emojize
 from colorama import Fore, Back, Style
 from project import (get_country_name_from_code,
                      get_emoji_from_id,
@@ -39,7 +39,7 @@ forecast_api_url = generate_forecast_api_url(latitude, longitude, units)
 print(forecast_api_url)
 
 try:
-    forecast_response = requests.get(forecast_api_url)
+    forecast_response = requests.get(forecast_api_url, timeout=10)
 except requests.RequestException:
     print(Fore.RED)
     sys.exit("Oops!Something went wrong." + Style.RESET_ALL)
@@ -89,16 +89,16 @@ else:
 
         print(Fore.YELLOW, end="")
         if new_date != date:
-            print(emoji.emojize(f":calendar:  {new_date}"))
+            print(emojize(f":calendar:  {new_date}"))
             date = new_date
         print(Fore.MAGENTA, end="")
-        print(emoji.emojize(f":hourglass_done:  {forecast_time} \
+        print(emojize(f":hourglass_done:  {forecast_time} \
     ({city_name} time)"))
         print(Fore.CYAN, end="")
-        print(emoji.emojize(f"{weather_emoji}   {main} ({description})  \
+        print(emojize(f"{weather_emoji}   {main} ({description})  \
     :thermometer:  Temperature: {temp}{temp_unit}  :balance_scale:   \
 Pressure: {pressure} hPa"))
-        print(emoji.emojize(f":droplet:  Humidity: {humidity}%      \
+        print(emojize(f":droplet:  Humidity: {humidity}%      \
     :wind_face:   Wind: {wind_speed} {speed_unit} {wind_direction}   :cloud:  \
 Cloudiness: {clouds}%"))
         print(Style.RESET_ALL)
