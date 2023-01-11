@@ -44,10 +44,10 @@ def main():
     print(Style.RESET_ALL, end="")
 
     # Here we go:
-    api_url = generate_api_url(latitude, longitude, API_KEY, units)
+    current_api_url = generate_current_api_url(latitude, longitude, units)
 
     try:
-        current_response = requests.get(api_url)
+        current_response = requests.get(current_api_url)
     except requests.RequestException:
         print(Fore.RED)
         sys.exit("Oops!Something went wrong." + Style.RESET_ALL)
@@ -368,7 +368,7 @@ def calculate_visibility(raw_visibility, units):
     return round(visibility, 2)
 
 
-def generate_api_url(latitude, longitude, API_KEY, units):
+def generate_current_api_url(latitude, longitude, units):
     return f"""https://api.openweathermap.org/data/2.5/weather?\
 lat={latitude}&lon={longitude}&appid={API_KEY}&units={units}"""
 
