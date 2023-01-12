@@ -157,14 +157,16 @@ def get_user_input():
             print("(Sorted by population)\n")
             option_lists = []
 
-            for i in range(len(similar_results)):
-                option_lists.append(i + 1)
-                city = similar_results[i]["name"]
-                country_code = similar_results[i]["countrycode"]
+            # Print options, generate a list of valid options
+            for i, cities in enumerate(similar_results, start=1):
+                option_lists.append(i)
+                city = cities["name"]
+                country_code = cities["countrycode"]
                 country_name = get_country_name_from_code(country_code)
-                print(f"Option {i + 1}: {city}, {country_name}", end=" ")
+                print(f"Option {i}: {city}, {country_name}", end=" ")
                 print(flag.flag(country_code))
 
+            # Get option from user / handle incorrect inputs
             while True:
                 try:
                     user_selection = int(
@@ -188,6 +190,8 @@ are after? (1 to {len(similar_results)}): "
                     print("Not a valid option! Try again.", end="")
                     print(Style.RESET_ALL)
 
+        # If length of similar_results equals 0, no cities wit
+        # a similar name were found
         elif len(similar_results) == 0:
             # If no city was found, try again:
             print(Fore.RED)
@@ -195,30 +199,31 @@ are after? (1 to {len(similar_results)}): "
             print("Please try again.\n")
             print(Style.RESET_ALL)
             continue
+
+        # Otherwise (a single city with similar name was found)...
         else:
+            # Present option and ask for confirmation
             city_name = similar_results[0]["name"]
             country_code = similar_results[0]["countrycode"]
             city_data = similar_results[0]
             country_name = get_country_name_from_code(country_code)
+
             while True:
                 print(Fore.GREEN)
-                user_confirmation = input(
-                    f"Are we talking about {city_name},\
- {country_name} {flag.flag(country_code)}? (Y/N): " + Style.RESET_ALL
-                )
-                if (
-                    user_confirmation.lower() == "y"
-                    or user_confirmation.lower() == "yes"
-                ):
+                user_confirmation = input(f"Are we talking about {city_name},\
+ {country_name} {flag.flag(country_code)}? (Y/N): " + Style.RESET_ALL).lower()
+                # If that's the right city, return city_data
+                # dictionary to main()
+                if user_confirmation in ["y", "yes"]:
                     return city_data
-                elif (
-                    user_confirmation.lower() == "n"
-                    or user_confirmation.lower() == "no"
-                ):
+                # If it's not, break the while loop
+                # (and it will ask again for the city name)
+                elif user_confirmation in ["n", "no"]:
                     print(Fore.YELLOW)
                     print("Ok, let's try again then.")
                     print(Style.RESET_ALL)
                     break
+                # If user answers other than y, yes, n or no ask again
                 else:
                     print(Fore.RED)
                     print("Not a valid option. Try again (Y/N): ", end="")
@@ -227,6 +232,11 @@ are after? (1 to {len(similar_results)}): "
 
 
 def generate_ascii_art():
+    """
+    generate_ascii_art() will generate some ASCII Art (lol) using the Figlet
+    library to print the script name, and choosing random weather-related
+    emojis from the list below.
+    """
     figlet = Figlet()
 
     font = "slant"
@@ -276,11 +286,22 @@ def generate_ascii_art():
 
 
 def get_country_name_from_code(code):
+    """
+    The mapper module is documented in https://pypi.org/project/geonamescache/
+    """
     mapper = country(from_key="iso", to_key="name")
     return mapper(code)
 
 
 def get_emoji_from_id(weather_id, timestamp, sunrise, sunset):
+    """
+    get_emoji_from_id() will return the right weather emoji based on
+    the weather conditions code that openweather API uses.
+    Weather condition codes list: https://openweathermap.org/weather-conditions
+    If the sky is clear, It will also return a sun emoji if the time in the
+    city is between sunrise and sunset or a moon emoji if the time is
+    between sunset and sunrise.
+    """
     if weather_id.startswith("2"):
         return ":cloud_with_lightning_and_rain:"
     elif weather_id.startswith("3"):
@@ -307,6 +328,8 @@ def deg_to_compass(deg):
     Implementation taken from:
     https://stackoverflow.com/questions/7490660/converting-wind-direction-in-angles-to-text-words
     Credits to: https://stackoverflow.com/users/697151/steve-gregory
+    deg_to_compass() will take the wind direction degrees provided by the
+    API response and "translate" it to a more human-readable cardinal points
     """
     value = int((deg / 22.5) + 0.5)
     compass_directions = [
@@ -331,6 +354,13 @@ def deg_to_compass(deg):
 
 
 def calculate_visibility(raw_visibility, units):
+    """
+    If raw_visibility is the maximum value possible (10000 metres)
+    calculate_visibility() will simply return 10.00 (to use as kms or miles).
+    Otherwise, it will return the value transformed to miles if the chosen
+    units are imperial, or the original values (in metres) divided by 1000
+    to get a return value in kms.
+    """
     if raw_visibility == 10000:
         visibility = raw_visibility / 1000.00
     else:
@@ -342,11 +372,18 @@ def calculate_visibility(raw_visibility, units):
 
 
 def generate_current_api_url(latitude, longitude, units):
+    """
+    Generate the URL to access the current weather for the provided
+    coordinates and with the chosen units.
+    """
     return f"""https://api.openweathermap.org/data/2.5/weather?\
 lat={latitude}&lon={longitude}&appid={API_KEY}&units={units}"""
 
 
 def ask_units():
+    """
+    Ask what system of units the user would prefer / Handle wrong inputs.
+    """
     while True:
         user_preference = input(
             Fore.GREEN
@@ -366,6 +403,10 @@ prefer the information? (M)etric or (I)mperial? """
 
 
 def set_units_current(units):
+    """
+    Returns correct measurement units for temperature, speed and distance
+    based on the previously chosen units to be used on the current weather
+    """
     if units == "metric":
         return "°C", "meters/sec", "kms"
     elif units == "imperial":
@@ -375,6 +416,11 @@ def set_units_current(units):
 
 
 def set_units_forecast(units):
+    """
+    Returns correct measurement units for temperature and speed
+    based on the previously chosen units to be used on the weather forecast
+    (Distance units not used when presenting 5 days forecast)
+    """
     if units == "metric":
         return "°C", "meters/sec"
     elif units == "imperial":
@@ -384,6 +430,11 @@ def set_units_forecast(units):
 
 
 def print_current_response(current_response, units):
+    """
+    print_current_response() takes the returned dictionary by get_user_input(),
+    parses the relevant information, formats and prints the required parameters
+    for the current weather
+    """
     temp_unit, speed_unit, distance_unit = set_units_current(units)
     timestamp = current_response["dt"]
     city_name = current_response["name"]
@@ -479,6 +530,10 @@ temperature in {city_name}: {temp_min}{temp_unit}"""
 
 
 def ask_forecast():
+    """
+    Ask the user if they would like to get a weather report for the
+    next 5 days / Handle wrong inputs.
+    """
     while True:
         user_response = input(Fore.GREEN + "Would you like to get a 5 day\
  forecast? (Y/N) " + Style.RESET_ALL).lower()
@@ -494,6 +549,13 @@ def ask_forecast():
 
 
 def print_forecast_response(forecast_response, units):
+    """
+    print_forecast_response() takes the returned dictionary by the second API
+    call, parses the relevant information, formats and prints the required
+    parameters for the 5 day / 3 hour weather forecast, looping through the
+    returned list of dictionaries and converting the forecast time from UTC
+    to local time.
+    """
     temp_unit, speed_unit = set_units_forecast(units)
 
     city_name = forecast_response["city"]["name"]
@@ -502,7 +564,6 @@ def print_forecast_response(forecast_response, units):
     sunrise = datetime.utcfromtimestamp(sunrise)
     sunset = forecast_response["city"]["sunset"] + timezone
     sunset = datetime.utcfromtimestamp(sunset)
-    # Convert sunrise and sunset to local time
     date = ""
 
     for forecast in forecast_response["list"]:
@@ -554,6 +615,10 @@ Cloudiness: {clouds}%"))
 
 
 def generate_forecast_api_url(latitude, longitude, units):
+    """
+    Generate the URL to access the 5 day weather forecast for the provided
+    coordinates and with the previously chosen units.
+    """
     return f"""https://api.openweathermap.org/data/2.5/forecast?\
 lat={latitude}&lon={longitude}&appid={API_KEY}&units={units}"""
 
