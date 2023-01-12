@@ -13,27 +13,40 @@ from colorama import Fore, Style
 
 load_dotenv()
 
+# Get API Key for https://openweathermap.org/ from a .env file
+# Replace with your own API Key.
 API_KEY = os.getenv("API_KEY")
 
 # https://pypi.org/project/geonamescache/
+# When creating a GeonamesCache you can set the min_city_population parameter
+# to either of 500, 1000, 5000 or the default 15000.
+# The smaller the minimum popluation the more cities are included
+# in the cities dataset.
 gc = geonamescache.GeonamesCache(min_city_population=15000)
 
+# Get a list of countries
 countries_list = gc.get_countries_by_names()
 
 
 def main():
+    # Print welcome ASCII Art
     print(generate_ascii_art())
 
+    # Ask user for a city (error handling included)
+    # city_data will store a dictionary with all the necessary information
     city_data = get_user_input()
 
+    # Ask user for measurement units to use
     units = ask_units()
 
+    # Get information from the above returned dictionary
     city_name = city_data["name"]
     country_code = city_data["countrycode"]
     latitude = city_data["latitude"]
     longitude = city_data["longitude"]
     country_name = get_country_name_from_code(country_code)
 
+    # Print information about the selected city
     print(Fore.MAGENTA, end="")
     print("\nCity name:", city_name)
     print("Country:", country_name)
@@ -41,45 +54,63 @@ def main():
     print("Longitude:", longitude)
     print(Style.RESET_ALL, end="")
 
-    # Here we go:
+    # Generate URL to call the current weather API using previous
+    # determined arguments to get current weather information
     current_api_url = generate_current_api_url(latitude, longitude, units)
 
+    # Execute API call
     try:
+        # Store response from openweathermap.org in current_response
         current_response = requests.get(current_api_url, timeout=10)
     except requests.RequestException:
+        # Error message if something goes wrong during API call
         print(Fore.RED)
         sys.exit("Oops!Something went wrong." + Style.RESET_ALL)
 
+    # Parse the response as JSON
     current_response = current_response.json()
 
     if current_response["cod"] != 200:
+        # Error message if something is wrong in the API response
         print(Fore.RED)
         sys.exit("Oops!Something went wrong." + Style.RESET_ALL)
 
+    # print_current_response() will take care of parsing, formatting
+    # and printing the useful information.
     else:
         print_current_response(current_response, units)
 
+    # Once the current weather of the city was printed, ask the user
+    # if they want to get a 5 day/3 hour forecast for the same city.
     wants_forecast = ask_forecast()
 
+    # If the user accepts, generate URL to call now the forecast API
     if wants_forecast:
         forecast_api_url = generate_forecast_api_url(latitude,
                                                      longitude,
                                                      units)
 
+        # Execute API call
         try:
             forecast_response = requests.get(forecast_api_url, timeout=10)
         except requests.RequestException:
+            # Error message if something goes wrong during API call
             print(Fore.RED)
             sys.exit("Oops!Something went wrong." + Style.RESET_ALL)
 
+        # Parse the response as JSON
         forecast_response = forecast_response.json()
 
         if forecast_response["cod"] != "200":
+            # Error message if something is wrong in the API response
             print(Fore.RED)
             sys.exit("Oops!Something went wrong." + Style.RESET_ALL)
         else:
+            # print_forecast_response() will take care of parsing, formatting
+            # and printing the useful information.
             print_forecast_response(forecast_response, units)
 
+    # Print goodbye message
     print(Fore.GREEN, end="")
     print("\nThanks for using Weather CLI!")
     print("Bye!")
@@ -95,6 +126,8 @@ def get_user_input():
  to know about the weather?: """
             + Style.RESET_ALL
         )
+        # If user input has less than characters, show an error message
+        # The amount of returned values could be huge
         if len(user_input) < 3:
             print(
                 emojize(
@@ -104,15 +137,21 @@ def get_user_input():
                 )
             )
             print(Fore.YELLOW + "Please be more specific." + Style.RESET_ALL)
+            # Try again
             continue
+        # If user input has 3 characters or more, look for a list of
+        # cities with similar name
         similar_results = gc.search_cities(
             user_input, case_sensitive=False, attribute="name"
         )
+        # Sort the list by population (most populated city will show
+        # up on top)
         similar_results = sorted(
             similar_results, key=lambda d: d["population"], reverse=True
         )
+
         if len(similar_results) > 1:
-            # If more than one city was found, show options:
+            # If more than one city was found, show city options:
             print(Fore.YELLOW)
             print("Well, we have a couple of coincidences here.")
             print("(Sorted by population)\n")
