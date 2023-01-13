@@ -76,29 +76,43 @@ Weather CLI was coded as my final project for Harvard's CS50’s Introduction to
 - `generate_forecast_api_url(latitude, longitude, units)`: TODO
 
 ## Use Examples:
+TODO
 
 #### Welcome Message
+TODO
 
 #### Multiple Cities Found (min_city_population=15000)
+TODO
 
 #### Multiple Cities Found (min_city_population=500)
+TODO
 
 #### No City Found
+TODO
 
 #### Only One City Found
+TODO
 
 #### Wrong User Selection
+TODO
 
 #### Asking for Units
+TODO
 
 #### Printing Information Using Metric System
+TODO
 
 #### Printing Information Using Imperial System
+TODO
 
 #### User Being Asked If They'd Like A 5 Day Forecast
+TODO
 
 #### Printing Information Using Metric System
+TODO
 
 #### Printing Information Using Imperial System
+TODO
 
 #### Note the sun or moon emoji wether forecast time is between sunrise and sunset.
+TODO
