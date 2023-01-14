@@ -47,33 +47,39 @@ Weather CLI was coded as my final project for Harvard's CS50’s Introduction to
 
 ## Functions
 
-- `get_user_input()`: TODO
+- `generate_ascii_art()`: Creates a welcome message using `Figlet` module to generate a stylized "Weather CLI", surrounded by randomly chosen weather-related emojis.
 
-- `generate_ascii_art()`: TODO
+- `get_user_input()`: Asks the user for a city and searches for similar cities names using `GeonamesCache` library, plus takes care of the error handling for user input. If no similar cities were found, prints an error message and prompts the user again for a city name. If more than one city was found, prints a list of options to the user to choose from. If only a city with that name was found, asks for confirmation. Finally, returns a dictionary containing information of the chosen city.
 
-- `get_country_name_from_code(code)`: TODO
+- `get_country_name_from_code(code)`: Uses the built-in mapper function from `GeonamesCache` to get the country full-name from a country code, since the city information dictionaries only contains country code and not the full name.
+    - A bit more of information about the mapper module can be found in https://pypi.org/project/geonamescache/, "Mappers" section.
 
-- `get_emoji_from_id(weather_id, timestamp, sunrise, sunset)`: TODO
+- `get_emoji_from_id(weather_id, timestamp, sunrise, sunset)`: Considering the passed `weather_id`, returns the appropriate weather emoji based on the weather conditions code that OpenWeather API uses. 
+    - Weather condition codes list: https://openweathermap.org/weather-conditions
+    - If the sky is clear, It will also return a sun emoji if the time in the city is between `sunrise` and `sunset` or a moon emoji if the time is between `sunset` and `sunrise`.
 
-- `deg_to_compass(deg)`: TODO
+- `deg_to_compass(deg)`: Takes the wind direction degrees `deg` provided by the
+    API response and "translates" it to more human-readable cardinal points
+    - Implementation taken from: https://stackoverflow.com/questions/7490660/converting-wind-direction-in-angles-to-text-words
+    - Credits to: https://stackoverflow.com/users/697151/steve-gregory
 
-- `calculate_visibility(raw_visibility, units)`: TODO
+- `calculate_visibility(raw_visibility, units)`: Takes the `visibility` value returned by the API and simply divides it by 1000 if the value indicates "maximum visibility" (10000 metres) to use as default maximum visibility possible value, either 10.00 km or 10.00 miles. If the value is other than 10000, it converts it to miles if the chosen units system is Imperial. If the chosen units system is Metric, again simply returns the value divided by 1000 to use it as kilometres instead of metres.
 
-- `generate_current_api_url(latitude, longitude, units)`: TODO
+- `generate_current_api_url(latitude, longitude, units)`: Generates the URL to access the current weather for the provided coordinates and with the chosen units.
 
-- `ask_units()`: TODO
+- `ask_units()`: Asks what system of units the user would prefer to see the information and handles wrong user inputs while doing so.
 
-- `set_units_current(units)`: TODO
+- `set_units_current(units)`: Returns correct measurement units for temperature, speed and distance based on the previously chosen units to be used on the current weather.
 
-- `set_units_forecast(units)`: TODO
+- `set_units_forecast(units)`: Returns correct measurement units for temperature and speed based on the previously chosen units to be used on the weather forecast (Distance units not used when presenting 5 days forecast).
 
-- `print_current_response(current_response, units)`: TODO
+- `print_current_response(current_response, units)`: Takes the returned dictionary by `get_user_input()`, parses the relevant information, formats and prints the required data for the current weather.
 
-- `ask_forecast()`: TODO
+- `ask_forecast()`: Asks the user if they would like to get a weather report for the next 5 days and handles bad user inputs while doing so.
 
-- `print_forecast_response(forecast_response, units)`: TODO
+- `print_forecast_response(forecast_response, units)`: Takes the returned dictionary by the second API call, parses the relevant information, formats and prints the required parameters for the 5 day / 3 hour weather forecast, looping through the returned list of dictionaries and converting the forecast time from UTC to local time.
 
-- `generate_forecast_api_url(latitude, longitude, units)`: TODO
+- `generate_forecast_api_url(latitude, longitude, units)`: Generates the URL to access the 5 day weather forecast for the provided coordinates and with the previously chosen units.
 
 ## Use Examples:
 TODO

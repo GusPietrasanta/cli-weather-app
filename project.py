@@ -119,6 +119,16 @@ def main():
 
 # Validate user input
 def get_user_input():
+    """
+    Asks the user for a city and searches for similar cities and
+    takes care of the error handling.
+    If no similar cities were found, prints an error message and
+    asks again for a city name.
+    If more than one city was found, prints a list of options to the
+    user to choose from.
+    If only a city with that name was found, asks for confirmation.
+    Finally, returns a dictionary containing information of the chosen city.
+    """
     while True:
         user_input = input(
             Fore.GREEN
@@ -163,7 +173,7 @@ def get_user_input():
                 city = cities["name"]
                 country_code = cities["countrycode"]
                 country_name = get_country_name_from_code(country_code)
-                print(f"Option {i}: {city}, {country_name}", end=" ")
+                print(f"Option [{i}]: {city}, {country_name}", end=" ")
                 print(flag.flag(country_code))
 
             # Get option from user / handle incorrect inputs
@@ -296,7 +306,7 @@ def get_country_name_from_code(code):
 def get_emoji_from_id(weather_id, timestamp, sunrise, sunset):
     """
     get_emoji_from_id() will return the right weather emoji based on
-    the weather conditions code that openweather API uses.
+    the weather conditions code that OpenWeather API uses.
     Weather condition codes list: https://openweathermap.org/weather-conditions
     If the sky is clear, It will also return a sun emoji if the time in the
     city is between sunrise and sunset or a moon emoji if the time is
@@ -329,7 +339,7 @@ def deg_to_compass(deg):
     https://stackoverflow.com/questions/7490660/converting-wind-direction-in-angles-to-text-words
     Credits to: https://stackoverflow.com/users/697151/steve-gregory
     deg_to_compass() will take the wind direction degrees provided by the
-    API response and "translate" it to a more human-readable cardinal points
+    API response and "translate" it to more human-readable cardinal points
     """
     value = int((deg / 22.5) + 0.5)
     compass_directions = [
@@ -373,7 +383,7 @@ def calculate_visibility(raw_visibility, units):
 
 def generate_current_api_url(latitude, longitude, units):
     """
-    Generate the URL to access the current weather for the provided
+    Generates the URL to access the current weather for the provided
     coordinates and with the chosen units.
     """
     return f"""https://api.openweathermap.org/data/2.5/weather?\
@@ -382,7 +392,7 @@ lat={latitude}&lon={longitude}&appid={API_KEY}&units={units}"""
 
 def ask_units():
     """
-    Ask what system of units the user would prefer / Handle wrong inputs.
+    Asks what system of units the user would prefer / Handle wrong inputs.
     """
     while True:
         user_preference = input(
@@ -531,7 +541,7 @@ temperature in {city_name}: {temp_min}{temp_unit}"""
 
 def ask_forecast():
     """
-    Ask the user if they would like to get a weather report for the
+    Asks the user if they would like to get a weather report for the
     next 5 days / Handle wrong inputs.
     """
     while True:
@@ -616,7 +626,7 @@ Cloudiness: {clouds}%"))
 
 def generate_forecast_api_url(latitude, longitude, units):
     """
-    Generate the URL to access the 5 day weather forecast for the provided
+    Generates the URL to access the 5 day weather forecast for the provided
     coordinates and with the previously chosen units.
     """
     return f"""https://api.openweathermap.org/data/2.5/forecast?\
