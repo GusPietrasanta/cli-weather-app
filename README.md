@@ -82,10 +82,9 @@ Weather CLI was coded as my final project for Harvard's CS50’s Introduction to
 - `generate_forecast_api_url(latitude, longitude, units)`: Generates the URL to access the 5 day weather forecast for the provided coordinates and with the previously chosen units.
 
 ## Use Examples:
-TODO
 
 #### Welcome Message
-TODO
+![](https://lh3.googleusercontent.com/pgkVBhjaAGBwpPJR1nG2XjmpPMzwp1W-ya69dXXeMofebCc6CdnwqVqjMRxHJcpLwkpv4EeNowse0xQQP55PuPx8Yk15XvoQappSUZXypSscioIrE1tSqYPmX3hqpJKoiWRqe_TreUHAO2UIfR5H1CSoBgws5O0uvbkZt4QIODsbOKWET08mApT3jVRn93uvJLKVPYL8m-jvZWlb-Qi4K8DfDs0frgH7Q2rsbcD4WL6osL10HUoZ-XxbF-3hXJ7ioncAdGKXI6pL6EJBIaDTD7e-vjcYYutTppnvZswhCP0-QZyvvsAoc6Lv-mL4kVuXXBHtuIAnLWZ2iYr2BnCnF6YWGcSRiETuVEv-xK4apsoGVJdeT4hFfmfx3LxhWH5FYQTuIvG1t_ymVOtwyvAcZVhDcZZcTd2SSVru9LcsK80V4WoOiIWYLH_J1-KiphqvXk6nJxEtJAUoF5mGd4L4h3G5AVWWdrSNMk2_l7v1OCCTOWS4K5chF2bojTEtHZaAmPJ9PjSka4AsbYyDD5OG27uIMDPkgh_D959FhAiqEeq70X1sk2pEDCljAsDvvKgeS9Cb9nsQRvEBPQ_dWWJIam5VB_0CRdKySTnqMo7v9QJsXE49O58aqPyUYH9eSmKva0-Mf0xqHz_NOE18a9sSMRtAsW7OPI3cb5sMiMDMNuzvLDq_om_Annvvikv2PHcvIlhsrrPpV-WyfeNRejBt_vwUOjH-pO2-_hX2ZRQ9u-btnZ1y3Ita_ahABf9nZ0gqS5FcJtSuWBSOXec0lb-1ppXP9DUmvHilQ9VjCNEIQ_kPFKJqx18YDz-P5tEDRlE_pENkoP2taWIThfjUYNUUuYjsMux4nefriGVKp1r6sk1bessvKTMsq2KGWPftCLXiZ0LLxY4RvZJsFxzs1pE4g9SQzWy-W6ditwAyziVp1VEX=w626-h268)
 
 #### Multiple Cities Found (min_city_population=15000)
 TODO
@@ -114,10 +113,10 @@ TODO
 #### User Being Asked If They'd Like A 5 Day Forecast
 TODO
 
-#### Printing Information Using Metric System
+#### Printing Forecast Using Metric System
 TODO
 
-#### Printing Information Using Imperial System
+#### Printing Forecast Using Imperial System
 TODO
 
 #### Note the sun or moon emoji wether forecast time is between sunrise and sunset.
