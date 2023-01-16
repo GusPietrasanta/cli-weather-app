@@ -20,7 +20,7 @@ API_KEY = os.getenv("API_KEY")
 # https://pypi.org/project/geonamescache/
 # When creating a GeonamesCache you can set the min_city_population parameter
 # to either of 500, 1000, 5000 or the default 15000.
-# The smaller the minimum popluation the more cities are included
+# The smaller the minimum population the more cities are included
 # in the cities dataset.
 gc = geonamescache.GeonamesCache(min_city_population=15000)
 
