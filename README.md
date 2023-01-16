@@ -1,6 +1,6 @@
 # Weather CLI
 
-#### Video Demo: https://youtu.be/nd-VpkDMXHU
+#### Video Demo: https://www.youtube.com/watch?v=nd-VpkDMXHU
 
 #### Description:
 
